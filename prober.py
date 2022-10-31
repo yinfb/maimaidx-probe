@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 from time import sleep
 from wsgiref import headers
 
@@ -200,19 +201,20 @@ class MainHandler(tornado.web.RequestHandler):
             sleep(0.2)
             Netx = rc.get(
                 "https://maimai.wahlap.com/maimai-mobile/record/musicGenre/search/?genre=99&diff={}".format(i))
-            with open("indexc{}".format(i), "w") as c:
-                c.write(Netx.content.decode("utf8"))
+            print(Netx.content)
+            with open("indexc{}".format(i), "w", encoding='utf8') as c:
+                c.write(Netx.content.decode(encoding='utf8'))
 
         Netx = rc.get(
             "https://maimai.wahlap.com/maimai-mobile/record/".format(i))
-        Page_O = BeautifulSoup(Netx.content.decode('utf8'), 'html.parser')
+        Page_O = BeautifulSoup(Netx.content, 'html.parser')
         res = Page_O.find_all('input', attrs={"name": "idx"})
         ResList = []
         for i in res:
             print(i.get("value"))
             cc = rc.get("https://maimai.wahlap.com/maimai-mobile/record/playlogDetail/?idx={}".format(
-                i.get("value"))).content.decode('utf8')
-            with open("last_Detailspage", "w") as f:
+                i.get("value"))).content.decode(encoding='utf8')
+            with open("last_Detailspage", "w", encoding='utf8') as f:
                 f.write(cc)
             ResList.append(GetDetails(cc))
             sleep(0.16)
@@ -270,9 +272,8 @@ def updateSongList():
         f.write(json.dumps(DataList))
     print("Done")
 
-
 if __name__ == "__main__":
     updateSongList()
     app = make_app()
-    app.listen(8888)
+    app.listen(8188)
     tornado.ioloop.IOLoop.current().start()
