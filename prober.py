@@ -109,7 +109,7 @@ def GetDetails(c):
         if diffc[0] == 'A':
             levelid = 1
         if diffc[0] == 'E':
-            levelid == 2
+            levelid = 2
         if diffc[0] == 'M':
             levelid = 3
         if diffc[0] == 'R':
